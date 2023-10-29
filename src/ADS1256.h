@@ -37,6 +37,11 @@
 	#warning  "Oops! Pins for your board are not defined: pinDRDY, pinRST, pinCS"
 #endif
 
+// ADS1256 status
+#define ADS1256_STATUS_ORDER 0x08
+#define ADS1256_STATUS_ACAL 0x04
+#define ADS1256_STATUS_BUFEN 0x02
+
 // ADS1256 Register address
 #define ADS1256_RADD_STATUS 0x00
 #define ADS1256_RADD_MUX 0x01
@@ -127,7 +132,7 @@ class ADS1256 {
  public:
     ADS1256(uint32_t clock=800000U, float vref=2.5, 
             uint8_t miso=MISO, uint8_t mosi=MOSI, uint8_t sck=SCK, uint8_t ss=SS, 
-            uint8_t drdy=0, bool useResetPin=false, uint8_t rst=0);
+            uint8_t drdy=0, uint8_t _pwdn=0, bool useResetPin=false, uint8_t rst=0);
 
     void writeRegister(unsigned char reg, unsigned char wdata);
     unsigned char readRegister(unsigned char reg);
@@ -152,6 +157,7 @@ class ADS1256 {
     uint8_t _ss;
     uint8_t _drdy;
     uint8_t _rst;
+    uint8_t _pwdn;
     SPISettings spiSettings;
     SPIClass *vspi = NULL;
     
